@@ -2,7 +2,7 @@ aGLM is the natural evolution of Professor Codephreak creating automind then aut
 
 [https://github.com/pythaiml/automindx/blob/main/automindx.install](https://github.com/GATERAGE/aglm/blob/main/aglm.install)<br />
 sudo apt install wget<br />
-wget https://github.com/GATERAGE/aglm/blob/main/aglm.install<br >
+wget https://github.com/GATERAGE/aglm/blob/main/aglm.install<br />
 chmod +x aglm.install && ./aglm.install<br />
 
 
