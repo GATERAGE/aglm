@@ -1,6 +1,5 @@
 aGLM is the natural evolution of Professor Codephreak creating automind then automindx creating MASTERMIND to build an Autonomous General Learning Model. automindx is now the conda build environment for aGLM MASTERMIND with RAGE
 
-[https://github.com/pythaiml/automindx/blob/main/automindx.install](https://github.com/GATERAGE/aglm/blob/main/aglm.install)<br />
 sudo apt install wget<br />
 wget https://github.com/GATERAGE/aglm/blob/main/aglm.install<br />
 chmod +x aglm.install && ./aglm.install<br />
@@ -10,7 +9,7 @@ chmod +x aglm.install && ./aglm.install<br />
 # USE MANUAL INSTALL FOR NOW
 -----------------------------------
 # clone aGLM and install requirements<br />
-git clone https://github.com/gaterage/aglm/br />
+git clone https://github.com/gaterage/aglm/<br />
 cd aglm<br />
 #install pip if you haven't already<br />
 sudo apt install python3-pip<br />
