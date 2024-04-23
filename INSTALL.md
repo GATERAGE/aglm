@@ -123,6 +123,9 @@ conda deactivate<br />
 conda activate -n automindx<br />
 # diagnostics<br />
 sudo apt-get install hardinfo htop nvtop<br />
+# fortran for scipy
+sudo apt install gfortran
+
 
 
 
