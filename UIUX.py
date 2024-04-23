@@ -20,7 +20,7 @@ from MASTERMIND import MASTERMIND, AgentInterface
 
 # Import specific MASTERMIND agents
 from logic import LogicTables
-from reasoning import Reasoner
+from reasoning import SocraticReasoning
 from prediction import Predictor
 from epistemic import KnowledgeBase
 from autonomize import Autonomizer
