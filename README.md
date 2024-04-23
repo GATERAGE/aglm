@@ -1,5 +1,5 @@
-# IAML Intelligent Autonomous Machine Learning<br />
-"I Am Machine Learning"<br /><br />
+# aGLM Autonomous General Learning Model<br />
+"I Am a Learning Machine"<br /><br />
 project codename = aGLM Autonomous General Learning Model<br />
 project direction = <a href="https://rage.pythai.net">RAGE</a><br /><br />
 "MASTERMIND controller for aGLM with RAGE."<br />
