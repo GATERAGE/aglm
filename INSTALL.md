@@ -1,17 +1,17 @@
-aGLM is the natural evolution of Professor Codephreak creating automind then automindx creating MASTERMIND to build an Autonomous General Learning Model
+aGLM is the natural evolution of Professor Codephreak creating automind then automindx creating MASTERMIND to build an Autonomous General Learning Model. automindx is now the conda build environment for aGLM MASTERMIND with RAGE
 
-https://github.com/pythaiml/automindx/blob/main/automindx.install<br />
-
-wget automindx.install<br >
-chmod +x automindx.install && ./automindx.install<br />
+[https://github.com/pythaiml/automindx/blob/main/automindx.install](https://github.com/GATERAGE/aglm/blob/main/aglm.install)<br />
+sudo apt install wget<br />
+wget https://github.com/GATERAGE/aglm/blob/main/aglm.install<br >
+chmod +x aglm.install && ./aglm.install<br />
 
 
 
 # USE MANUAL INSTALL FOR NOW
 -----------------------------------
-# clone automindx and install requirements<br />
-git clone https://github.com/pythaiml/automindx/<br />
-cd automind<br />
+# clone aGLM and install requirements<br />
+git clone https://github.com/gaterage/aglm/br />
+cd aglm<br />
 #install pip if you haven't already<br />
 sudo apt install python3-pip<br />
 #display version of pip installed<br />
@@ -21,7 +21,7 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh<br />
 chmod +x Miniconda3-latest-Linux-x86_64.sh<br />
 sudo ./Miniconda3-latest-Linux-x86_64.sh<br />
 #reload the shell configuration settings change for your shell example is for bash source ~/.bashrc<br />
-conda create --name automind python=3.9.1<br />
+conda create --name automindx python=3.9.1<br />
 conda init<br />
 conda activate automindx<br />
 #install automind requirements with pip<br />
