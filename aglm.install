@@ -2,10 +2,13 @@
 
 # tested on Ubuntu 22.04.6 LTS Linux Mint 21.2 and Manjaro Linux pacman users choose no to update system request
 
-# automindx (c) 2023 codephreak MIT license
+# codephreak (c) codephreak MIT licence 2023
+# automindx (c) codephreak 2023 BSD licence
+# mastermind (c) codephreak GPLv3 2024
+# aGLM (c) codephreak Apache licence 2024
 
 # requirements Linux sudo
-# sudo apt install gfortran
+# sudo apt install gfortran python3-pip -y
 # recognizes user shell bash zsh
 # script promptes user to update system to current using apt
 # checks for conda and updates or installs conda
