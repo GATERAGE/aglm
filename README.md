@@ -1,8 +1,8 @@
 # IAML Intelligent Autonomous Machine Learning<br />
 "I Am Machine Learning"<br /><br />
-project codename = codephreak<br />
-project direction = automind <a href="https://github.com/automindx">automindx</a><br /><br />
-"Professor Codephreak is an expert in machine learning, computer science and computer programming ..."<br />
+project codename = aGLM Autonomous General Learning Model<br />
+project direction = <a href="https://rage.pythai.net">RAGE</a><br /><br />
+"MASTERMIND controller for aGLM with RAGE."<br />
 uiux.py provides Gradio output to local server for local language model interaction<br />
 Gradio interacts with html javascript and css <a href="https://www.gradio.app/guides/custom-CSS-and-JS">custom Gradio</a><br />
 <a href="https://www.gradio.app/guides/getting-started-with-the-js-client">Gradio Javascript Client</a><br />
