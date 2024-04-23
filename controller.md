@@ -140,3 +140,9 @@ if __name__ == "__main__":
     mastermind = MASTERMIND()
     mastermind.execute_agents()
     logging.info("All agents have been executed.")
+
+
+    Directory Management: Ensures the "agents" directory is specifically monitored for new agent scripts that need to be loaded.
+Saving as Tools: After an agent is executed successfully, its script file is copied from the "agents" directory to the "tools" directory. This signifies that the agent has moved to a more stable phase and can be considered a tool within the system.
+Concurrent Execution and Management: Maintains the previous functionality of concurrent execution but adds the process of saving successful agents as tools.
+This updated approach allows MASTERMIND to not only manage and execute agents but also recognize and store effective solutions, enhancing the system's utility and facilitating reuse of successful components.
