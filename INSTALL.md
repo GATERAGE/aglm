@@ -1,6 +1,8 @@
+aGLM is the natural evolution of Professor Codephreak creating automind then automindx creating MASTERMIND to build an Autonomous General Learning Model
+
 https://github.com/pythaiml/automindx/blob/main/automindx.install<br />
 
-get automindx.install<br >
+wget automindx.install<br >
 chmod +x automindx.install && ./automindx.install<br />
 
 
