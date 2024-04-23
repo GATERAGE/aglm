@@ -6,10 +6,19 @@ import pathlib
 import ujson
 from enum import Enum
 from threading import Thread
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer, TextIteratorStreamer
+from auto_gptq import AutoGPTQForCausalLM
+from llama_cpp import Llama
 from huggingface_hub import hf_hub_download
+from automind import format_to_llama_chat_style
+from memory import save_conversation_memory
+from aglm import LlamaModel
+from chunk4096 import Chunker  # Import the Chunker class
 
-# Import MASTERMIND modules
+# MASTERMIND Integration
+from MASTERMIND import MASTERMIND, AgentInterface
+
+# Import specific MASTERMIND agents
 from logic import LogicalOperator
 from reasoning import Reasoner
 from prediction import Predictor
@@ -38,14 +47,19 @@ def create_folder_if_not_exists(folder_path):
 
 def initialize_gpu_model_and_tokenizer(model_name, model_type):
     if model_type == Model_Type.gptq:
-        model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+        model = AutoGPTQForCausalLM.from_quantized(model_name, device_map="auto", use_safetensors=True, use_triton=False)
         tokenizer = AutoTokenizer.from_pretrained(model_name)
     else:
-        model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto", token=True)
+        tokenizer = AutoTokenizer.from_pretrained(model_name, token=True)
     return model, tokenizer
 
 def run_ui(model, tokenizer, is_chat_model, model_type, save_history=True):
+    mastermind = MASTERMIND()  # Initialize MASTERMIND
+    # Load agents dynamically as required
+    mastermind.load_agent("Reasoner", Reasoner)
+    mastermind.load_agent("Predictor", Predictor)
+
     with gr.Blocks() as demo:
         chatbot = gr.Chatbot()
         msg = gr.Textbox()
@@ -56,18 +70,14 @@ def run_ui(model, tokenizer, is_chat_model, model_type, save_history=True):
         def user(user_message, memory):
             nonlocal conversation_memory
             conversation_memory = memory + [[user_message, None]]
-            # Integrating MASTERMIND's reasoning and prediction
-            reasoner = Reasoner()
-            predictor = Predictor(model)
-            socratic_questioner = SocraticQuestioner(topic=user_message)
+            
+            # Execute MASTERMIND agents and get their data
+            mastermind.execute_agents()
+            reasoning_output = mastermind.get_data("Reasoner")
+            prediction_output = mastermind.get_data("Predictor")
 
-            # Generate reasoning and predictions
-            reasoning_output = reasoner.deduce(user_message)
-            prediction_output = predictor.forecast(user_message)
-            socratic_question = socratic_questioner.generate_question()
-
-            # Update conversation memory with new outputs
-            memory[-1][1] = f"Reasoning: {reasoning_output}, Prediction: {prediction_output}, Socratic Question: {socratic_question}"
+            # Update conversation memory with outputs
+            memory[-1][1] = f"Reasoning: {reasoning_output}, Prediction: {prediction_output}"
             return "", memory
 
         def bot(memory):
@@ -75,12 +85,11 @@ def run_ui(model, tokenizer, is_chat_model, model_type, save_history=True):
             conversation_memory = memory
             user_input = memory[-1][0]
 
-            # Using LLAMA style or direct inputs based on model type
+            # Use LLAMA style or direct inputs based on model type
             instruction = format_to_llama_chat_style(memory) if is_chat_model else user_input
 
             try:
                 if model_type == Model_Type.ggml:
-                    # Handle specific generation for LLAMA models
                     for chunk in model(prompt=instruction, stream=True):
                         memory[-1][1] += chunk["choices"][0]["text"]
                 else:
