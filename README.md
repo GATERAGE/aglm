@@ -1,60 +1,115 @@
-# aGLM Autonomous General Learning Model<br />
-"I Am a Learning Machine"<br /><br />
-project codename = aGLM Autonomous General Learning Model<br />
-project direction = <a href="https://rage.pythai.net">RAGE</a><br /><br />
-"MASTERMIND controller for aGLM with RAGE."<br />
-uiux.py provides Gradio output to local server for local language model interaction<br />
-Gradio interacts with html javascript and css <a href="https://www.gradio.app/guides/custom-CSS-and-JS">custom Gradio</a><br />
-<a href="https://www.gradio.app/guides/getting-started-with-the-js-client">Gradio Javascript Client</a><br />
-Documentation: codephreak = uiux.py + memory.py + automind.py + aglm.py<br />
+# <a href="https://opensea.io/assets/matic/0xf0ba8dcdfba1b5aed0b46acddf7dde97075e97a2/1">MASTERMIND</a> (c) codephreak GPLv3 2024
+MASTERMIND agent creator and control agent<br />
 
-# User Interface and Interaction (uiux.py)<br />
+<b>MASTERMIND.py</b>
+Purpose: This file serves as the core of the MASTERMIND system, orchestrating the interaction between various components and managing the overall workflow.
+Functionality:
 
-(uiux.py) provides a user interface using the Gradio library to facilitate user interaction.
-This chatbot interface takes the user input, processes it, generating response includingc onversation memory handling storing and managing user instructions and model responses. The result is a local language model prompted to run as "Professor Codephreak is an expert in computer programming ....." that refers to itself as "codephreak"
-Contextual Conversation Management<br />
+Initializes the system and sets up the environment.
+Coordinates between modules including prediction, reasoning, and logic to process data and execute tasks.
+Manages state and ensures the consistency of operations across the system.
+Use Cases:
+Serving as the entry point for the system to execute complex tasks.
+Orchestrating multi-module interactions for comprehensive data processing and decision-making.
 
-(automind.py) provides the mechanism to format and managing conversation history using the format_to_llama_chat_style function.
-(automind.py) creates coherent conversation context integrating memory management and with chatbot behavior.
-Handling different model types and initialization is based on model name calling the model from the models folder. <br />
+<b>prediction.py</b>
+Purpose: Dedicated to forecasting future states or outcomes based on historical data and predictive models.
+Functionality:
 
-(memory.py) handles Conversation Memory Management by  creating a class DialogEntry to represent individual conversation dialog entries.
-A function save_conversation_memory is called to save conversation history as JSON files. Memory is created by storing user instructions and model responses in memory files for context management as .json outputs with a timestamp.<br />
+Implements machine learning algorithms or statistical models to make predictions.
+Analyzes historical data to identify patterns and trends for forecasting.
+Use Cases:
+Predicting user behaviors, market trends, or system performances.
+Providing insights for decision-making and strategic planning.
 
-# LLAMA Model Interaction<br />
-(aglm.py)<br />
+<b>nonmonotonic.py</b>
+Purpose: Implements non-monotonic reasoning to allow the system to adapt its beliefs and knowledge base in light of new information, especially when it contradicts previous assumptions.
+Functionality:
 
-Initializes the LLAMA language model and tokenizer based on the specified models_folder models handling processing and tokenization of conversation context using the LLAMA model then generating contextually relevant responses using the LLAMA model. AUTOMIND uses a LLAMA language model to generate responses based on user instructions and conversation history. (uiux.py) encompasses user interface design, memory management, context handling, and interaction with the language model to create a conversational experience for users.<br />
+Handles updates to the knowledge base when new, contradicting evidence is introduced.
+Supports reasoning in dynamic environments where the truth value of statements can change.
+Use Cases:
+Adapting to new information in rapidly changing environments.
+Revising decisions or plans based on updated information.
 
------------------------------------
+<b>socratic.py</b>
+Purpose: Inspired by the Socratic method, this module likely facilitates a question-and-answer style of learning or problem-solving.
+Functionality:
 
-## [automindx.install](https://github.com/pythaiml/automindx/blob/main/automindx.install)
+Generates questions to probe understanding or clarify information.
+Analyzes responses to guide users or systems towards deeper insights.
+Use Cases:
+Guiding educational interactions or tutorials.
+Enhancing problem-solving by encouraging critical thinking and exploration.
 
+<b>reasoning.py</b>
+Purpose: Provides the logic and infrastructure for various types of reasoning, including deductive, inductive, and abductive reasoning.
+Functionality:
 
-To install right click "Save link as ..." [automindx.install](https://github.com/pythaiml/automindx/blob/main/automindx.install)
- chmod +x automind.install && automind.install
+Implements algorithms for logical deduction, generalization, and hypothesis generation.
+Supports complex decision-making processes with a logical foundation.
+Use Cases:
+Drawing conclusions from a set of premises or known facts.
+Generating hypotheses or explanations for observed phenomena.
 
-details and verbose procedure<br />
-instructions tested on Ubuntu 22.04 Linux Mint 21.2 and Mandrake Linux 
-1. Right-click the following link: [automindx.install](https://github.com/pythaiml/automindx/blob/main/automindx.install)
+<b>logic.py</b>
+Purpose: Focuses on implementing formal logic systems and operations, providing a foundation for reasoning and decision-making processes.
+Functionality:
 
-2. Choose "Save link as..." or "Download linked file" from the context menu.
-3. Select a location on your computer to save the file.
-4. from the terminal
-5. chmod +x automind.install && ./automind.install<br />
+Offers tools for evaluating logical expressions and performing logical operations.
+Ensures the logical consistency and validity of arguments and decisions.
+Use Cases:
+Supporting the reasoning processes in AI systems.
+Validating arguments and ensuring consistency in logical frameworks.
 
----------------------------------
-<br />
+<b>epistemic.py</b>
+Purpose: Manages the knowledge and beliefs within the system, tracking what is known, believed, and how these states change over time.
+Functionality:
 
-# RUN <a href="https://github.com/Professor-Codephreak">Professor Codephreak</a> with a desire to create automindx<br />
-auto-downloads model llama2-7b-chat-codeCherryPop-qLoRA-GGML<br />
-creates <b>Professor Codephreak</b> an expert in computer science, machine learning and computer programming<br />
-prompt includes an agenda to create the automindx deployment environment</b><br />
-note: This repo is under development<br />
-inputs larger than 4096 characters will crash the input --> response screen<br />
+Represents and updates the epistemic states of agents or the system.
+Handles the dynamics of knowledge and belief, including certainty and uncertainty.
+Use Cases:
+Modeling the knowledge base of intelligent agents.
+Supporting decision-making processes that depend on the state of knowledge.
 
-```bash
-python3 uiux.py --model_name="TheBloke/llama2-7b-chat-codeCherryPop-qLoRA-GGML" --tokenizer_name="TheBloke/llama2-7b-chat-codeCherryPop-qLoRA-GGML" --model_type="ggml" --save_history --file_name="llama-2-7b-chat-codeCherryPop.ggmlv3.q4_1.bin"
-```
+<b>autonomize.py</b>
+Purpose: Enhances the autonomy of agents or components, allowing for self-directed operation and decision-making for self-healing software.
+Functionality:
 
+Implements mechanisms for self-improvement and adaptation.
+Enables components to operate independently based on their objectives and the current state of the environment.
+Use Cases:
+Developing self-improving AI systems.
+Automating decision-making in dynamic and complex environments.
 
+<b>bdi.py</b>
+Purpose: Implements the Beliefs, Desires, Intentions (BDI) agent framework, modeling the cognitive structure of agents.
+Functionality:
+
+Defines and manages the beliefs, desires, and intentions of agents.
+Guides agent behavior and decision-making based on their BDI states.
+Use Cases:
+Creating intelligent agents for simulations and virtual environments.
+Designing systems where agent behavior is driven by complex internal states.
+
+<b>terminai.py</b>
+separates openai api interaction from assistant into cmd: command-mode
+adds API key to .env on first run and creates .env
+standalone test file python3 terminai.py
+
+<b>terminai_module.py</b>
+integrates terminai.py functionalities into MASTERMIND as a modular class to include SimpleCoder.py interaction with terminal as cmd:
+
+<b>SimpleCoder.py</b>
+Purpose: Utility module providing coding aids, templates, and functions to simplify development tasks.
+Functionality:
+
+Offers reusable code snippets, templates, and utility functions.
+Aims to enhance productivity and maintain consistency across the codebase.
+Use Cases:
+Accelerating development processes by providing common coding patterns.
+Ensuring code quality and consistency with standardized templates and functions.
+
+<b>config.json</b> offers the default allowed agency for MASTERMIND<br />
+This is experimental softare and needs to be jailed to protect potential system damage
+TODO: sandbox controller for integration with shell
