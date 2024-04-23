@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
 # Script Description:
-# This script automates the setup and installation of the automindx environment, including Miniconda, required packages, and the automindx repository.
+# This script automates the setup and installation of the aGLM environment, including Miniconda, required packages, and the automindx repository.
 # Tested on Ubuntu 22.04.6 LTS, Linux Mint 21.2, and Manjaro Linux
+# expanding from https://github.com/pythaiml/automindx/ creates aGLM Autonomous General Learning Model with MASTERMIND and RAGE
+# 4096chunk.py is currently disabled model will crash on inputs above 4096 characters
+# to do upgrade to Mixtral or LLAMA3
 
 # Copyright Information:
 # codephreak (c) codephreak MIT licence 2023
