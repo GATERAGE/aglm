@@ -5,15 +5,16 @@
 # automindx (c) 2023 codephreak MIT license
 
 # requirements Linux sudo
+# sudo apt install gfortran
 # recognizes user shell bash zsh
 # script promptes user to update system to current using apt
 # checks for conda and updates or installs conda
 # actives automind conda environment
 # runs conda init USER_SHELL
 # clones automind and enters directory
-# installs automind with default model llama-2-7b-chat-codeCherryPop.ggmlv3.q4_1.bin
+# installs automindx with default model llama-2-7b-chat-codeCherryPop.ggmlv3.q4_1.bin
 # launches boilerplate Gradio instruction response and expose API to localhost and globalhost
-# Professor Codephreak is ...
+# Professor Codephreak is ... powered by aGLM MASTERMIND with RAGE
 
 # Detect user's shell and set shell initialization file
 USER_SHELL=$(env | grep SHELL | awk -F'=' '{print $2}')
