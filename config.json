@@ -2,6 +2,12 @@
     "allowed_agents": [
         "SimpleAgent",
         "SimpleCoder",
-        "MASTERMIND"
+        "Autonomizer",
+        "Reasoner",
+        "Predictor",
+        "EpistemicManager",
+        "NonmonotonicReasoner",
+        "SocraticQuestioner",
+        "BDIManager"
     ]
 }
