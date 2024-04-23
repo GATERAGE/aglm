@@ -10,7 +10,7 @@ from logic import LogicTables
 from reasoning import SocraticReasoning
 from prediction import Predictor
 from epistemic import AutoepistemicAgent
-from autonomize import Autonomizer
+# from autonomize import Autonomizer
 from nonmonotonic import NonmonotonicReasoner
 from socratic import SocraticQuestioner
 from bdi import BDIModel
