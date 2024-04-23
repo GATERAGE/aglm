@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+# Script Description:
+# This script automates the setup and installation of the automindx environment, including Miniconda, required packages, and the automindx repository.
+# Tested on Ubuntu 22.04.6 LTS, Linux Mint 21.2, and Manjaro Linux
+
+# Copyright Information:
+# codephreak (c) codephreak MIT licence 2023
+# automindx (c) codephreak 2023 BSD licence
+# mastermind (c) codephreak GPLv3 2024
+# aGLM (c) codephreak Apache licence 2024
+
+# Ensure the script is run with sudo privileges
+if [ "$(id -u)" != "0" ]; then
+    echo "This script must be run as root" 1>&2
+    exit 1
+fi
+
+# Detect user's shell and set shell initialization file
+USER_SHELL=$(echo $SHELL | awk -F'/' '{print $NF}')  # More robust way to determine the shell
+INIT_FILE=".$USER_SHELL"rc  # Assuming all initialization files follow this pattern
+
+# Update PATH in user's shell initialization file
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/$INIT_FILE"
+source "$HOME/$INIT_FILE"
+
+# Prompt user to upgrade the system
+read -p "Would you like to upgrade your apt-based system? (y/n): " UPGRADE_SYSTEM
+if [[ $UPGRADE_SYSTEM =~ ^[Yy]$ ]]; then
+    echo "Upgrading system..."
+    apt-get update && apt-get upgrade -y
+    echo "System upgrade completed."
+else
+    echo "Skipping system upgrade."
+fi
+
+# Check and install Miniconda
+if command -v conda &> /dev/null; then
+    echo "Miniconda is already installed."
+else
+    echo "Installing Miniconda..."
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+    bash miniconda.sh -b -p "$HOME/miniconda3"
+    rm miniconda.sh
+    echo 'export PATH="$HOME/miniconda3/bin:$PATH"' >> "$HOME/$INIT_FILE"
+    source "$HOME/$INIT_FILE"
+    conda init "$USER_SHELL"
+fi
+
+# Initialize Miniconda for the user's shell
+conda init "$USER_SHELL"
+source "$HOME/$INIT_FILE"
+
+# Setup automindx Miniconda environment
+conda create --name automindx python=3.11.4 -y
+conda activate automindx
+
+# Install required packages using pip
+pip install gradio==3.37.0 psutil==5.9.5 llama2_wrapper==0.1.7 ujson==5.8.0 fire==0.5.0
+
+# Clone the automindx repository and install its requirements
+echo "Cloning the automindx repository..."
+git clone https://github.com/pythaiml/automindx
+cd automindx
+pip install -r requirements.txt
+
+# Execute the UIUX script with parameters
+echo "Running UIUX.py..."
+python3 UIUX.py --model_name="TheBloke/llama2-7b-chat-codeCherryPop-qLoRA-GGML" --tokenizer_name="TheBloke/llama2-7b-chat-codeCherryPop-qLoRA-GGML" --model_type="ggml" --save_history --file_name="llama-2-7b-chat-codeCherryPop.ggmlv3.q4_1.bin"
+
+echo "Installation and setup completed successfully."
