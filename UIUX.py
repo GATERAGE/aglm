@@ -19,7 +19,7 @@ from chunk4096 import Chunker  # Import the Chunker class
 from MASTERMIND import MASTERMIND, AgentInterface
 
 # Import specific MASTERMIND agents
-from logic import LogicalOperator
+from logic import LogicTables
 from reasoning import Reasoner
 from prediction import Predictor
 from epistemic import KnowledgeBase
