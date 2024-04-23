@@ -1,24 +1,12 @@
 import os
 import gradio as gr
 import fire
-import time
 import pathlib
-import ujson
 from enum import Enum
-from threading import Thread
-from transformers import AutoModelForCausalLM, AutoTokenizer, TextIteratorStreamer
-from auto_gptq import AutoGPTQForCausalLM
-from llama_cpp import Llama
+from transformers import AutoModelForCausalLM, AutoTokenizer
 from huggingface_hub import hf_hub_download
-from automind import format_to_llama_chat_style
-from memory import save_conversation_memory
-from aglm import LlamaModel
-# from chunk4096 import Chunker  # Import the Chunker class
 
-# MASTERMIND Integration
-from MASTERMIND import MASTERMIND, AgentInterface
-
-# Import specific MASTERMIND agents
+from MASTERMIND import MASTERMIND
 from logic import LogicTables
 from reasoning import SocraticReasoning
 from prediction import Predictor
@@ -41,25 +29,16 @@ def get_model_type(model_name):
     else:
         return Model_Type.full_precision
 
-def create_folder_if_not_exists(folder_path):
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
-
 def initialize_gpu_model_and_tokenizer(model_name, model_type):
     if model_type == Model_Type.gptq:
-        model = AutoGPTQForCausalLM.from_quantized(model_name, device_map="auto", use_safetensors=True, use_triton=False)
+        model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
         tokenizer = AutoTokenizer.from_pretrained(model_name)
     else:
-        model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto", token=True)
-        tokenizer = AutoTokenizer.from_pretrained(model_name, token=True)
+        model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
     return model, tokenizer
 
 def run_ui(model, tokenizer, is_chat_model, model_type, save_history=True):
-    mastermind = MASTERMIND()  # Initialize MASTERMIND
-    # Load agents dynamically as required
-    mastermind.load_agent("Reasoner", Reasoner)
-    mastermind.load_agent("Predictor", Predictor)
-
     with gr.Blocks() as demo:
         chatbot = gr.Chatbot()
         msg = gr.Textbox()
@@ -70,23 +49,19 @@ def run_ui(model, tokenizer, is_chat_model, model_type, save_history=True):
         def user(user_message, memory):
             nonlocal conversation_memory
             conversation_memory = memory + [[user_message, None]]
-            
-            # Execute MASTERMIND agents and get their data
-            mastermind.execute_agents()
-            reasoning_output = mastermind.get_data("Reasoner")
-            prediction_output = mastermind.get_data("Predictor")
 
-            # Update conversation memory with outputs
-            memory[-1][1] = f"Reasoning: {reasoning_output}, Prediction: {prediction_output}"
+            # Example to integrate prediction using updated Predictor class
+            predictor = Predictor("models")  # Assuming model directory is "models"
+            features_df = None  # Placeholder for actual feature DataFrame
+            predictions = predictor.predict(features_df) if features_df is not None else "No features provided"
+
+            memory[-1][1] = f"Predictions: {predictions}"
             return "", memory
 
         def bot(memory):
             nonlocal conversation_memory
             conversation_memory = memory
-            user_input = memory[-1][0]
-
-            # Use LLAMA style or direct inputs based on model type
-            instruction = format_to_llama_chat_style(memory) if is_chat_model else user_input
+            instruction = memory[-1][0]
 
             try:
                 if model_type == Model_Type.ggml:
@@ -98,7 +73,8 @@ def run_ui(model, tokenizer, is_chat_model, model_type, save_history=True):
                     memory[-1][1] += tokenizer.decode(outputs[0], skip_special_tokens=True)
 
                 if save_history:
-                    save_conversation_memory(conversation_memory)
+                    # Placeholder function to save conversation memory
+                    pass
             except ValueError as e:
                 memory[-1][1] = "Error: Instruction too long to process."
 
@@ -112,9 +88,6 @@ def run_ui(model, tokenizer, is_chat_model, model_type, save_history=True):
 def main(model_name=None, file_name=None, save_history=True):
     assert model_name, "model_name argument is missing."
     model_type = get_model_type(model_name)
-    if model_type == Model_Type.ggml:
-        assert file_name, "When model_name is provided for a GGML quantized model, file_name argument must also be provided."
-
     model, tokenizer = initialize_gpu_model_and_tokenizer(model_name, model_type)
     run_ui(model, tokenizer, 'chat' in model_name.lower(), model_type, save_history=save_history)
 
