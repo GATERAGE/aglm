@@ -1,36 +1,52 @@
-# Epistemic Logic as an extension to BDI (Belief-Desire-Intention) model
-
-# Basic Assumptions: Autoepistemic logic assumes that an agent has some initial beliefs or assumptions about the world.
-
-# Default Rules: Nonmonotonic reasoning in autoepistemic logic involves the use of default rules. 
-# These rules capture common-sense reasoning and are assumed to hold in the absence of contradictory evidence.
-
-# Adding Information: When new information is added to the agent's knowledge base, it can lead to the reevaluation of previously drawn conclusions.
-
-# Revised Beliefs: Autoepistemic logic allows the agent to revise its beliefs based on the new information while maintaining consistency with its original beliefs.
-
-# Withdrawal of Conclusions: Unlike classical logic, where the addition of new information only expands the set of valid conclusions, 
-# autoepistemic logic permits the withdrawal of previously drawn conclusions when they conflict with the newly acquired information.
-
-# Reasoning Process: The agent's reasoning process involves iteratively considering default rules and their implications in light of the new information. 
-# If a contradiction arises, the agent may retract conclusions that were previously drawn based on default rules.
-
-# Python Code Implementation
-
 class AutoepistemicAgent:
     def __init__(self, initial_beliefs):
+        """
+        Initialize the agent with a set of initial beliefs.
+        
+        Args:
+            initial_beliefs (dict): A dictionary representing initial beliefs with truth values.
+        """
         self.beliefs = initial_beliefs
 
     def add_information(self, new_information):
-        # Update beliefs with new information
+        """
+        Update beliefs with new information.
+
+        Args:
+            new_information (dict): A dictionary containing new information to update the beliefs.
+        """
         self.beliefs.update(new_information)
+        print(f"Updated beliefs: {self.beliefs}")
 
     def revise_beliefs(self):
-        # Check if any conclusions based on default rules need to be retracted
-        for belief in list(self.beliefs):
-            if self.contradicts_new_information(belief):
-                self.beliefs.remove(belief)
+        """
+        Revise beliefs to ensure consistency, retracting conclusions as necessary.
+        """
+        to_remove = [belief for belief in self.beliefs if self.contradicts_new_information(belief)]
+        for belief in to_remove:
+            self.beliefs.pop(belief)
+        print(f"Revised beliefs after removal: {self.beliefs}")
 
     def contradicts_new_information(self, belief):
-        # Placeholder function to be implemented with actual logic
+        """
+        Check if a belief contradicts the new information.
+        
+        Args:
+            belief (str): The belief to check for contradictions.
+        
+        Returns:
+            bool: True if there is a contradiction, False otherwise.
+        """
+        # Actual contradiction logic: For simplicity, let's define a contradiction example:
+        # A belief is considered contradictory if its negation is directly stated in new beliefs.
+        # This requires parsing the belief statement to check for negations.
+        if 'not ' + belief in self.beliefs or belief.startswith('not ') and belief[4:] in self.beliefs:
+            return self.beliefs[belief] != self.beliefs.get('not ' + belief[4:], not self.beliefs[belief])
         return False
+
+# Demonstration of usage
+if __name__ == '__main__':
+    # Initial beliefs could be defined as dictionary objects, where keys are propositions and values are their truth values
+    agent = AutoepistemicAgent(initial_beliefs={'The sky is blue': True, 'Grass is green': True})
+    agent.add_information({'The sky is blue': False})  # Contradictory information
+    agent.revise_beliefs()
