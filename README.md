@@ -1,3 +1,5 @@
+# model UIUX.py is currently broken... under active development
+
 # <a href="https://opensea.io/assets/matic/0xf0ba8dcdfba1b5aed0b46acddf7dde97075e97a2/1">MASTERMIND</a> (c) codephreak GPLv3 2024
 MASTERMIND agent creator and control agent<br />
 project details are available at <a href="https://rage.pythai.net">rage.pythai.net</a><br />
