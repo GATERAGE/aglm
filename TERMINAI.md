@@ -1,4 +1,4 @@
-updated terminai.md documentation including the MASTERMIND modular extension to reflect the integration of a complex command and AI interaction system:
+updated terminai.md documentation including the MASTERMIND modular extension to reflect the integration of a complex command and AI interaction system from SimpleCoder:
 
 TerminAI
 TerminAI is an innovative Python application that merges the power of OpenAI's GPT models with the versatility of the command-line interface. This allows users to interact with advanced AI directly from their terminal and execute shell commands within the same context, augmented by the MASTERMIND modular extension for enhanced command processing and AI capabilities. TerminAI can act as a standalone module for openai or API interaction with the terminal
