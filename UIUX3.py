@@ -10,7 +10,7 @@ from reasoning import SocraticReasoning
 from prediction import Predictor
 from epistemic import AutoepistemicAgent
 from nonmonotonic import DefaultLogic, Rule, Default  # Ensure this is imported
-from socratic import SocraticQuestioner
+#from socratic import SocraticQuestioner
 from bdi import BDIModel
 from memory import save_conversation_memory
 from aglm import LlamaModel
