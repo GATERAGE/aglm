@@ -10,7 +10,7 @@ from logic import LogicTables
 from reasoning import SocraticReasoning
 from prediction import Predictor
 from epistemic import AutoepistemicAgent
-from bdi import BDIModel  # Import BDI model functionalities
+from bdi import Belief, Desire, Intention, Goal, Reward  # Import BDI components
 from memory import save_conversation_memory
 from aglm import LlamaModel
 
@@ -40,24 +40,19 @@ def run_ui(model, tokenizer, is_chat_model, model_type, save_history=True):
 
         conversation_memory = []
         epistemic_agent = AutoepistemicAgent(initial_beliefs={'The sky is blue': True})
-        bdi_agent = BDIModel()  # Instantiate the BDI model
-        socratic_reasoner = SocraticReasoning()  # Instantiate the SocraticReasoning
+        belief = Belief("The sky is blue")  # Initialize Belief
 
         def user(user_message, memory):
             nonlocal conversation_memory
             conversation_memory.append([user_message, None])
 
-            # Simulate user adding conflicting information and use BDI model to handle it
+            # Process belief and simulate adding conflicting information
+            belief.process_belief()
             epistemic_agent.add_information({'The sky is blue': False})
             epistemic_agent.revise_beliefs()
-            bdi_response = bdi_agent.handle_message(user_message)  # Hypothetical method in BDI model
 
-            # Use SocraticReasoning to handle discussion
-            socratic_reasoner.add_premise(user_message)
-            conclusion = socratic_reasoner.draw_conclusion()
-
-            current_beliefs = epistemic_agent.beliefs
-            memory[-1][1] = f"Updated beliefs: {current_beliefs}, BDI response: {bdi_response}, Socratic conclusion: {conclusion}"
+            current_beliefs = f"Processed Belief: {belief}"
+            memory[-1][1] = current_beliefs
             return "", memory
 
         def bot(memory):
