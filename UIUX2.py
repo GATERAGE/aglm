@@ -11,8 +11,8 @@ from reasoning import SocraticReasoning
 from prediction import Predictor
 from epistemic import AutoepistemicAgent
 # from autonomize import Autonomizer
-from nonmonotonic import NonmonotonicReasoner
-from socratic import SocraticQuestioner
+# from nonmonotonic import NonmonotonicReasoner
+# from socratic import SocraticQuestioner
 from bdi import BDIModel
 from memory import save_conversation_memory
 from aglm import LlamaModel
