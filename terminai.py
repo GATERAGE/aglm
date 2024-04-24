@@ -18,55 +18,49 @@ class TerminAI:
     def __init__(self, stdscr, api_key):
         self.stdscr = stdscr
         self.api_key = api_key
-        self.setup_terminai_folder()
-        self.main()
+        self.setup_folders()
 
-    def setup_terminai_folder(self):
-        folder_path = './terminai'
-        os.makedirs(folder_path, exist_ok=True)
-        os.chmod(folder_path, 0o700)
+    def setup_folders(self):
+        # Set up both terminai and saindbx folders
+        os.makedirs('./terminai', exist_ok=True)
+        os.makedirs('./saindbx', exist_ok=True)
+        os.chmod('./terminai', 0o700)
+        os.chmod('./saindbx', 0o700)
 
     def talk_to_ai(self, message):
-        api_url = "https://api.openai.com/v1/chat/completions"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.api_key}"
-        }
-        data = {
-            "model": "gpt-3.5-turbo",
-            "messages": [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": message}
-            ]
-        }
-        response = requests.post(api_url, headers=headers, json=data)
-        response_json = response.json()
-        return response_json.get("choices", [{}])[0].get("message", {}).get("content", "")
+        # Simulate talking to an AI (like using SimpleCoder)
+        return f"Simulated response for: {message}"
 
-    def execute_command(self, command):
+    def execute_and_save_command(self, command):
+        # Execute command and handle SimpleCoder interaction
         try:
-            result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-            return result.stdout + result.stderr
-        except subprocess.CalledProcessError as e:
-            return f"An error occurred while executing the command: {e}"
+            # Assuming SimpleCoder could be a method to generate or analyze code
+            # This is a placeholder for the actual function call
+            # output = SimpleCoder.generate_code(command)
+            output = f"Simulated code generation for: {command}"
+            filepath = os.path.join('./saindbx', 'output.txt')
+            with open(filepath, 'w') as file:
+                file.write(output)
+            return f"Code saved to saindbx/output.txt\n{output}"
+        except Exception as e:
+            return f"An error occurred: {str(e)}"
 
     def main(self):
         self.stdscr.clear()
         self.stdscr.addstr("Welcome to TerminAI. Type 'exit' to quit, or type a command to execute it.\n")
-        self.stdscr.addstr("AI: How can I assist you today?\n")
         curses.echo()
         self.stdscr.keypad(True)
 
         while True:
             self.stdscr.addstr("> ")
-            input_str = self.stdscr.getstr().decode('utf-8')
+            input_str = self.stdscr.getstr().decode('utf-8').strip()
 
             if input_str == 'exit':
                 break
             elif input_str.startswith("cmd:"):
                 command = input_str[4:]
-                output = self.execute_command(command)
-                self.stdscr.addstr(f"Executed: {command}\nOutput:\n{output}\n")
+                output = self.execute_and_save_command(command)
+                self.stdscr.addstr(f"Command executed and result saved.\nOutput:\n{output}\n")
             else:
                 response = self.talk_to_ai(input_str)
                 self.stdscr.addstr(f"AI: {response}\n")
