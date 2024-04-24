@@ -1,7 +1,6 @@
-# Import reasoning, logic, and socratic modules
-from reasoning import Reasoning
-from logic import Logic
-from socratic import SocraticReasoning
+# Import necessary modules
+from logic import LogicTables
+from reasoning import SocraticReasoning
 
 # BDI Classes Start
 
@@ -9,12 +8,16 @@ from socratic import SocraticReasoning
 class Belief:
     def __init__(self, belief):
         self.belief = belief
-        self.logic = Logic()  # Initialize Logic class
-        self.reasoning = Reasoning()  # Initialize Reasoning class
-        self.socratic = SocraticReasoning()  # Initialize SocraticReasoning class
+        self.logic = LogicTables()  # Initialize Logic class, assuming it handles logical operations
+        self.reasoning = SocraticReasoning()  # Initialize SocraticReasoning class
+
+    def process_belief(self):
+        # Example method to process a belief using logic and reasoning
+        self.logic.evaluate_expression(self.belief, {})  # Hypothetically evaluate expression
+        self.reasoning.add_premise(self.belief)  # Adding premise for Socratic reasoning
 
     def __str__(self):
-        return self.belief
+        return f"Belief: {self.belief}"
 
 # Desire Class
 class Desire:
@@ -22,7 +25,7 @@ class Desire:
         self.goal = goal
 
     def __str__(self):
-        return f"Goal: {self.goal}"
+        return f"Desire: {self.goal}"
 
 # Intention Class
 class Intention:
@@ -30,6 +33,7 @@ class Intention:
         self.plan = plan
 
     def execute(self):
+        # Simulate the execution of a plan
         print(f"Executing plan: {self.plan}")
 
 # Goal Class
@@ -39,10 +43,9 @@ class Goal:
         self.conditions = conditions
         self.priority = priority
 
-    def is_fulfilled(self, belief_system, desire_system, intentions_system):
-        # Evaluate conditions based on beliefs, desires, and intentions
-        # Return True if the goal is fulfilled, otherwise False
-        pass
+    def is_fulfilled(self, belief_system):
+        # Check if goal conditions are fulfilled based on the current belief system
+        return all(belief.process_belief() for belief in belief_system)
 
     def __str__(self):
         return f"Goal: {self.name}, Priority: {self.priority}"
@@ -53,8 +56,8 @@ class Reward:
         self.total_reward = 0
 
     def update_reward(self, goal):
+        # Update the total reward based on the achievement of a goal
         if goal.is_fulfilled():
-            # Update the total reward based on the priority or other criteria
             self.total_reward += goal.priority
 
     def get_reward(self):
