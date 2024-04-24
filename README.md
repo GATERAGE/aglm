@@ -1,5 +1,6 @@
 # model UIUX.py is currently broken... under active development<br />
 # based on the working <a href="https://github.com/pythaiml/automindx">Professor Coderphreak model</a><br />
+# Autonomous General Learning Model is a hybridization of MASTERMIND aGLM with RAGE from codephreak<br />
 
 # <a href="https://opensea.io/assets/matic/0xf0ba8dcdfba1b5aed0b46acddf7dde97075e97a2/1">MASTERMIND</a> (c) codephreak GPLv3 2024
 MASTERMIND agent creator and control agent<br />
