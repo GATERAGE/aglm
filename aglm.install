@@ -39,7 +39,7 @@ fi
 read -p "Would you like to upgrade your apt-based system? (y/n): " UPGRADE_SYSTEM
 if [[ $UPGRADE_SYSTEM =~ ^[Yy]$ ]]; then
     echo "Upgrading system..."
-    sudo apt-get update && sudo apt-get upgrade -y
+    sudo apt-get update && sudo apt-get upgrade -y && sudo apt install git hardinfo -y
     echo "System upgrade completed."
 else
     echo "Skipping system upgrade."
