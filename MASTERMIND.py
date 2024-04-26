@@ -154,5 +154,5 @@ if __name__ == "__main__":
     mastermind = MASTERMIND()
     mastermind.load_agent("SimpleAgent", SimpleAgent)
     mastermind.execute_agents()
-    save_data_store(masterind)
+    save_data_store(mastermind)
     mastermind.monitor_resources()
