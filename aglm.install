@@ -3,9 +3,9 @@
 # Script Description:
 # This script automates the setup and installation of the aGLM environment, including Miniconda, required packages, and the automindx repository.
 # Tested on Ubuntu 22.04.6 LTS, Linux Mint 21.2, and Manjaro Linux
-# expanding from https://github.com/pythaiml/automindx/ creates aGLM Autonomous General Learning Model with MASTERMIND and RAGE
-# 4096chunk.py is currently disabled model will crash on inputs above 4096 characters
-# to do upgrade to Mixtral or LLAMA3
+# Expanding from https://github.com/pythaiml/automindx/ creates aGLM Autonomous General Learning Model with MASTERMIND and RAGE
+# 4096chunk.py is currently disabled; the model will crash on inputs above 4096 characters
+# To do: upgrade to Mixtral or LLAMA3
 
 # Copyright Information:
 # codephreak (c) codephreak MIT licence 2023
@@ -14,24 +14,32 @@
 # aGLM (c) codephreak Apache licence 2024
 
 # Ensure the script is run with sudo privileges
-if [ "$(id -u)" != "0" ]; then
-    echo "This script must be run as root" 1>&2
+#if [ "$(id -u)" != "0" ]; then
+#    echo "This script must be run as root" 1>&2
+#    exit 1
+#fi
+
+# Detect the user's shell
+USER_SHELL=$(basename $SHELL)
+echo "Detected shell: $USER_SHELL"
+
+# Update PATH in the user's shell initialization file
+INIT_FILE="$HOME/.${USER_SHELL}rc"
+echo "Updating $INIT_FILE with necessary paths..."
+
+# Source the initialization file to apply changes
+if [ -f "$INIT_FILE" ]; then
+    source "$INIT_FILE"
+else
+    echo "Initialization file not found, please check your shell settings."
     exit 1
 fi
-
-# Detect user's shell and set shell initialization file
-USER_SHELL=$(echo $SHELL | awk -F'/' '{print $NF}')  # More robust way to determine the shell
-INIT_FILE=".$USER_SHELL"rc  # Assuming all initialization files follow this pattern
-
-# Update PATH in user's shell initialization file
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/$INIT_FILE"
-source "$HOME/$INIT_FILE"
 
 # Prompt user to upgrade the system
 read -p "Would you like to upgrade your apt-based system? (y/n): " UPGRADE_SYSTEM
 if [[ $UPGRADE_SYSTEM =~ ^[Yy]$ ]]; then
     echo "Upgrading system..."
-    apt-get update && apt-get upgrade -y
+    sudo apt-get update && sudo apt-get upgrade -y
     echo "System upgrade completed."
 else
     echo "Skipping system upgrade."
@@ -40,35 +48,69 @@ fi
 # Check and install Miniconda
 if command -v conda &> /dev/null; then
     echo "Miniconda is already installed."
+    read -p "Do you want to install Miniconda over your existing Miniconda? (y/n): " REINSTALL
+    if [[ $REINSTALL =~ ^[Yy]$ ]]; then
+        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        bash miniconda.sh -b -p "$HOME/miniconda3"
+        rm miniconda.sh
+    else
+        echo "Using the existing Miniconda installation."
+    fi
 else
     echo "Installing Miniconda..."
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
     bash miniconda.sh -b -p "$HOME/miniconda3"
     rm miniconda.sh
-    echo 'export PATH="$HOME/miniconda3/bin:$PATH"' >> "$HOME/$INIT_FILE"
-    source "$HOME/$INIT_FILE"
-    conda init "$USER_SHELL"
 fi
 
-# Initialize Miniconda for the user's shell
-conda init "$USER_SHELL"
-source "$HOME/$INIT_FILE"
-
-# Setup automindx Miniconda environment
-conda create --name automindx python=3.11.4 -y
-conda activate automindx
-
-# Install required packages using pip
-pip install gradio==3.37.0 psutil==5.9.5 llama2_wrapper==0.1.7 ujson==5.8.0 fire==0.5.0 joblib==1.4.0 accelerate
-
-# Clone the automindx repository and install its requirements
+# Clone the automindx repository and enter working directory
 echo "Cloning the automindx repository..."
 git clone https://github.com/GATERAGE/aglm/
 cd aglm
+pwd
+ls -l
+
+# Initialize Conda for the detected shell
+conda init $USER_SHELL
+
+# Check if the 'automindx' environment already exists
+if conda env list | grep -q "automindx"; then
+    echo "The 'automindx' environment already exists."
+    read -p "Would you like to remove and recreate the 'automindx' environment? (y/n): " RECREATE_ENV
+    if [[ $RECREATE_ENV =~ ^[Yy]$ ]]; then
+        echo "Removing existing 'automindx' environment..."
+        conda remove --name automindx --all -y
+        echo "Creating new 'automindx' environment with Python 3.11.4..."
+        conda create --name automindx python=3.11.4 -y
+    else
+        echo "Using existing 'automindx' environment."
+    fi
+else
+    echo "Creating new 'automindx' environment with Python 3.11.4..."
+    conda create --name automindx python=3.11.4 -y
+fi
+
+# Activate the 'automindx' environment
+conda activate automindx
+
+
+# Re-source the initialization file after conda changes
+if [ -f "$INIT_FILE" ]; then
+    source "$INIT_FILE"
+else
+    echo "Failed to source $INIT_FILE after Conda initialization."
+    exit 1
+fi
+
+# Show conda environments with the current marked with *
+conda info --envs
+
+# Install requirements to automindx builder in the conda environment from requirements.txt
+echo "Installing Python packages from requirements.txt..."
 pip install -r requirements.txt
 
 # Execute the UIUX script with parameters
 echo "Running UIUX.py..."
-python3 UIUX.py --model_name="TheBloke/llama2-7b-chat-codeCherryPop-qLoRA-GGML" --tokenizer_name="TheBloke/llama2-7b-chat-codeCherryPop-qLoRA-GGML" --model_type="ggml" --save_history --file_name="llama-2-7b-chat-codeCherryPop.ggmlv3.q4_1.bin"
+python3 UIUX17.py --model_name="TheBloke/llama2-7b-chat-codeCherryPop-qLoRA-GGML" --tokenizer_name="TheBloke/llama2-7b-chat-codeCherryPop-qLoRA-GGML" --model_type="ggml" --save_history --file_name="llama-2-7b-chat-codeCherryPop.ggmlv3.q4_1.bin"
 
-echo "Installation and setup completed successfully."
+echo "aGLM setup completed successfully."
