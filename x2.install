@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# works using chmod +x && ./x2.install
 # Script Description:
 # This script automates the setup and installation of the automindx environment, including Miniconda, required packages, and the automindx repository.
 # Tested on Ubuntu 22.04.6 LTS, Linux Mint 21.2, and Manjaro Linux
@@ -69,7 +69,7 @@ pip install -r requirements.txt
 
 # Execute the UIUX script with parameters
 echo "Running UIUX17.py..."
-python3 UIUX16.py --model_name="TheBloke/llama2-7b-chat-codeCherryPop-qLoRA-GGML" --tokenizer_name="TheBloke/llama2-7b-chat-codeCherryPop-qLoRA-GGML" --model_type="ggml" --save_history --file_name="llama-2-7b-chat-codeCherryPop.ggmlv3.q4_1.bin"
+python3 uiux2.py --model_name="TheBloke/llama2-7b-chat-codeCherryPop-qLoRA-GGML" --tokenizer_name="TheBloke/llama2-7b-chat-codeCherryPop-qLoRA-GGML" --model_type="ggml" --save_history --file_name="llama-2-7b-chat-codeCherryPop.ggmlv3.q4_1.bin"
 
 echo "Installation and setup completed successfully."
 
