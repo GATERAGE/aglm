@@ -1,3 +1,5 @@
+# this model is BROKEN and is a refernce point of aGLM MASTERMIND and RAGE integration only
+# DO NOT attempt to launch this model
 # model UIUX.py is currently broken... under active development<br />
 # integration with MASTERMIND RAGE is underway<br />
 # current working install is x2.install with uiux2.py<br />
