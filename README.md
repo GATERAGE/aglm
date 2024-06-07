@@ -4,7 +4,7 @@
 # integration with MASTERMIND RAGE is underway<br />
 # current working install is x2.install with uiux2.py<br />
 # extrapolating the build to integrate MASTERMIND rational engine<br />
-# based on the working <a href="https://github.com/pythaiml/automindx">Professor Coderphreak model</a><br />
+# based on the working <a href="https://github.com/pythaiml/automindx">Professor Coderphreak model</a> and sucessful deployment of automind with automindx<br />
 # Autonomous General Learning Model is a hybridization of MASTERMIND aGLM with RAGE from codephreak<br />
 
 while these files are useful for research into AGI this model is currently not integrated into a working UIUX
