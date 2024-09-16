@@ -1,11 +1,12 @@
-# this model is BROKEN and is a refernce point of aGLM MASTERMIND and RAGE integration only
+# this model is currencly BROKEN and is useful as refernce point of aGLM MASTERMIND and RAGE for modular component display only
 # DO NOT attempt to launch this model
 # model UIUX.py is currently broken... under active development<br />
 # integration with MASTERMIND RAGE is underway<br />
 # current working install is x2.install with uiux2.py<br />
 # extrapolating the build to integrate MASTERMIND rational engine<br />
-# based on the working <a href="https://github.com/pythaiml/automindx">Professor Coderphreak model</a> and sucessful deployment of automind with automindx<br />
-# Autonomous General Learning Model is a hybridization of MASTERMIND aGLM with RAGE from codephreak<br />
+based on the working reference <a href="https://chatgpt.com/g/g-gNLDlpcAv-professor-codephreak">Professor Codephreak GPT4</a>
+ and sucessful deployment of automind with automindx<br />
+# Autonomous General Learning Model is a hybridization of MASTERMIND aGLM with RAGE from codephreak<br /> to create easyAGI
 
 while these files are useful for research into AGI this model is currently not integrated into a working UIUX
 # <a href="https://opensea.io/assets/matic/0xf0ba8dcdfba1b5aed0b46acddf7dde97075e97a2/1">MASTERMIND</a> (c) codephreak GPLv3 2024
