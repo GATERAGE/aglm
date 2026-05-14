@@ -1,0 +1,60 @@
+# SPDX-License-Identifier: Apache-2.0
+# (c) 2024-2026 GATERAGE — aGLM: Autonomous General Learning Model
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aglm"
+version = "0.1.0"
+description = "Autonomous General Learning Model — Perceive-Orient-Decide-Act cycle + belief system + autonomous runner."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "GATERAGE / Professor Codephreak" },
+]
+keywords = ["aglm", "autonomous", "general-learning-model", "poda", "beliefs", "agentic", "agi"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+
+[project.optional-dependencies]
+rage = ["rage>=0.2.0"]  # github.com/GATERAGE/RAGE — retrieval substrate
+mastermind = ["mastermind"]  # github.com/GATERAGE/mastermind — orchestrator
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.5",
+]
+
+[project.urls]
+Homepage = "https://github.com/GATERAGE/aglm"
+Documentation = "https://rage.pythai.net"
+Repository = "https://github.com/GATERAGE/aglm"
+"Companion: RAGE" = "https://github.com/GATERAGE/RAGE"
+"Companion: mastermind" = "https://github.com/GATERAGE/mastermind"
+"mindX consumer" = "https://github.com/agenticplace"
+
+[tool.setuptools.packages.find]
+include = ["aglm*"]
+exclude = ["tests*", "examples*", "docs*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
