@@ -127,3 +127,71 @@ This is experimental softare and needs to be jailed to protect potential system 
 TODO: sandbox controller for integration with shell
 
 4096chunk is to protect this particular model from inputs above 4096 characters. irrelevant with model upgrade to mixtral or llama3
+
+---
+
+# Modern aGLM Python package (Code release 2026-05-14)
+
+A standalone, agnostic, Apache-2.0 Python distribution of aGLM now lives in this repo, distilled from the autonomous-learning-loop pattern in [agenticplace/mindX](https://github.com/agenticplace) (`agents/core/agint.py` + `agents/core/mindXagent.py`).
+
+The historical research files at the repo root (`MASTERMIND.py`, `automind.py`, `bdi.py`, `reasoning.py`, `socratic.py`, etc.) are **preserved unchanged** — they document the easyAGI / Professor-Codephreak philosophical foundation that aGLM grew out of. The new `aglm/` directory is the modern, installable distribution.
+
+## Install
+
+```bash
+pip install .                  # core only
+pip install ".[rage]"          # with github.com/GATERAGE/RAGE
+pip install ".[mastermind]"    # with github.com/GATERAGE/mastermind
+pip install ".[dev]"           # pytest, ruff
+```
+
+## Quick use
+
+```python
+import asyncio
+from aglm import AGLMCore, AutonomousLoop, Decision, PerceptionContext
+
+async def perceive(): return PerceptionContext(facts={"hour": 14})
+async def decide(ctx, beliefs): return Decision(action="log", args=ctx.facts)
+async def act(d): return {"success": True}
+
+async def main():
+    core = AGLMCore(perceive=perceive, decide=decide, act=act)
+    print(await core.cycle())                          # one cycle
+    loop = AutonomousLoop(core, interval_seconds=300.0)  # or a periodic runner
+    await loop.start()
+    # …
+    await loop.stop()
+
+asyncio.run(main())
+```
+
+## Three primitives
+
+| Module | Class | Responsibility |
+|---|---|---|
+| `aglm/core.py` | `AGLMCore` | Perceive-Orient-Decide-Act cycle |
+| `aglm/beliefs.py` | `BeliefSystem` | claim + confidence + source attribution |
+| `aglm/cycle.py` | `AutonomousLoop` | periodic runner with circuit breaker |
+
+## Companion repos
+
+- **[GATERAGE/RAGE](https://github.com/GATERAGE/RAGE)** — retrieval substrate (the memory side)
+- **[GATERAGE/mastermind](https://github.com/GATERAGE/mastermind)** — strategic orchestrator (the planning side)
+
+Together: **RAGE remembers, aGLM decides, MASTERMIND orchestrates.**
+
+## Tests
+
+```bash
+pip install ".[dev]"
+pytest -v
+```
+
+## Spec
+
+[`docs/aglm_as_a_service.md`](docs/aglm_as_a_service.md) — canonical contract for what aGLM offers as a primitive in a multi-agent system.
+
+## License
+
+Apache-2.0. (c) 2024-2026 GATERAGE / Professor Codephreak.
