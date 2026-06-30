@@ -15,9 +15,10 @@ as optional. Two front ends are included:
 ./run_aisdk_console.sh        # Flask brain :5000 + Next.js console :3000
 ```
 
-See **[CONSOLE.md](CONSOLE.md)** for details and the **`aisdk`** skill in
-`.claude/skills/`. The notes below are the original historical README for the
-broken Gradio attempts (`uiux*.py`, `main.py`).
+See **[CONSOLE.md](CONSOLE.md)** for the usage walkthrough, **[TECHNICAL.md](TECHNICAL.md)**
+for the architecture, and the **`aisdk`** skill in `.claude/skills/`. The notes
+below are the original historical README for the broken Gradio attempts
+(`uiux*.py`, `main.py`).
 
 ---
 
