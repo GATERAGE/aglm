@@ -1,3 +1,26 @@
+## ✅ Working UI — the Cognitive Console
+
+A UI that **actually loads** now ships in this repo. AGLM is an *augmentation
+layer, not a model*, so the console runs the real cognitive faculties with zero
+heavy ML dependencies and treats the language model (Ollama, local or `:cloud`)
+as optional. Two front ends are included:
+
+```bash
+# 1) Flask cognitive console — all faculties, zero heavy deps
+./run_console.sh             # python3 aglm_app.py        → http://localhost:5000
+
+# 2) AI SDK participant console — streaming chat (Vercel AI SDK v7) on Ollama,
+#    with model picker (local + :cloud), advanced model-state, .history, and a
+#    live token counter
+./run_aisdk_console.sh        # Flask brain :5000 + Next.js console :3000
+```
+
+See **[CONSOLE.md](CONSOLE.md)** for details and the **`aisdk`** skill in
+`.claude/skills/`. The notes below are the original historical README for the
+broken Gradio attempts (`uiux*.py`, `main.py`).
+
+---
+
 # this model is currencly BROKEN and is useful as refernce point of aGLM MASTERMIND and RAGE for modular component display only
 # DO NOT attempt to launch this model
 # model UIUX.py is currently broken... under active development<br />

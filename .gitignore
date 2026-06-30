@@ -1,3 +1,4 @@
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -12,7 +13,24 @@ dist/
 .mypy_cache/
 .venv/
 venv/
-.env
+
+# Runtime artifacts
+*.log
+*.swp
+data_store.json
+memory/*.json
+models/
+
+# Node / Next.js (aglm-console)
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Editors / local config & secrets (the aisdk skill under .claude/skills IS tracked)
 .vscode/
 .idea/
-*.swp
+.claude/settings.local.json
+.env
+.env*.local
