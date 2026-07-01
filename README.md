@@ -1,221 +1,165 @@
-## ✅ Working UI — the Cognitive Console
+<div align="center">
 
-A UI that **actually loads** now ships in this repo. AGLM is an *augmentation
-layer, not a model*, so the console runs the real cognitive faculties with zero
-heavy ML dependencies and treats the language model (Ollama, local or `:cloud`)
-as optional. Two front ends are included:
+# aGLM — Autonomous General Learning Model
+
+**A logic-augmentation layer for language models — not a model itself.**
+
+aGLM wraps any existing model with Socratic, epistemic, nonmonotonic, and BDI
+reasoning. Because the reasoning layer is pure Python, the interfaces **load
+instantly** and the language model is optional and pluggable.
+
+[![License](https://img.shields.io/badge/license-GPLv3%20%2F%20Apache--2.0-blue)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10%2B-3776ab)](pyproject.toml)
+[![UI](https://img.shields.io/badge/UI-Flask%20%2B%20Next.js%2015-000)](CONSOLE.md)
+[![AI SDK](https://img.shields.io/badge/Vercel%20AI%20SDK-v7-black)](https://ai-sdk.dev)
+[![Models](https://img.shields.io/badge/models-Ollama%20local%20%2B%20cloud-4b9)](TECHNICAL.md)
+
+</div>
+
+---
+
+## Overview
+
+AGLM is a hybridization of **MASTERMIND** aGLM with **RAGE**, distilled from the
+Professor Codephreak / easyAGI research lineage. Its premise is simple:
+
+> **AGLM is not a language model — it augments one.** Every input can be run
+> through a cognitive pipeline (Socratic framing → epistemic belief → nonmonotonic
+> defeasibility → BDI plan) that produces a *logic-augmented prompt*. That prompt
+> is what gets handed to a model, or, with no model attached, is the deliverable
+> itself.
+
+The repository contains three things:
+
+1. **Two consoles** — working user interfaces that actually load.
+2. **A modern `aglm/` Python package** — the installable Perceive-Decide-Act core.
+3. **The historical research modules** — the cognitive faculties (`socratic.py`,
+   `bdi.py`, `logic.py`, `MASTERMIND.py`, …) that AGLM grew out of.
+
+---
+
+## Quickstart — the consoles
+
+Both front ends run with **zero heavy ML dependencies**. The language model runs
+in [Ollama](https://ollama.com) (local for modest hardware, `:cloud` for larger
+reasoning) and is entirely optional.
 
 ```bash
-# 1) Flask cognitive console — all faculties, zero heavy deps
-./run_console.sh             # python3 aglm_app.py        → http://localhost:5000
+# 1) Flask cognitive console — every faculty, zero heavy deps
+./run_console.sh              # → http://localhost:5000
 
-# 2) AI SDK participant console — streaming chat (Vercel AI SDK v7) on Ollama,
-#    with model picker (local + :cloud), advanced model-state, .history, and a
-#    live token counter
+# 2) AI SDK participant console — streaming chat on the Vercel AI SDK v7
 ./run_aisdk_console.sh        # Flask brain :5000 + Next.js console :3000
 ```
 
-See **[CONSOLE.md](CONSOLE.md)** for the usage walkthrough, **[TECHNICAL.md](TECHNICAL.md)**
-for the architecture, and the **`aisdk`** skill in `.claude/skills/`. The notes
-below are the original historical README for the broken Gradio attempts
-(`uiux*.py`, `main.py`).
+The **AI SDK console** adds a streaming chat with a model picker (local + `:cloud`),
+an **Advanced** model-state panel (temperature, top-p, top-k, penalties, context
+window, seed), a **`.history`** tab, and a live **token counter**.
+
+| Faculty | Module | In the console |
+|---|---|---|
+| Socratic | `reasoning.py` | premises · challenge · conclude · probing questions |
+| Logic tables | `logic.py` | truth tables over boolean expressions |
+| Nonmonotonic | `nonmonotonic.py` | default logic with retractable conclusions |
+| Epistemic | `epistemic.py` | belief state + revision |
+| BDI | `bdi.py` | Belief / Desire / Intention agent state |
+| Autonomize | `autonomize.py` | self-healing retry loop |
+| MASTERMIND | `MASTERMIND.py` | agent load · validate · execute |
+| Memory | `memory.py` | persist + browse `./memory/*.json` |
+| Prediction | `prediction.py` | optional sklearn-style inference |
+
+📖 **[CONSOLE.md](CONSOLE.md)** — usage walkthrough &nbsp;·&nbsp;
+🧭 **[TECHNICAL.md](TECHNICAL.md)** — architecture &nbsp;·&nbsp;
+🛠 **`.claude/skills/aisdk/`** — AI SDK v7 reference
 
 ---
 
-# this model is currencly BROKEN and is useful as refernce point of aGLM MASTERMIND and RAGE for modular component display only
-# DO NOT attempt to launch this model
-# model UIUX.py is currently broken... under active development<br />
-# integration with MASTERMIND RAGE is underway<br />
-# current working install is x2.install with uiux2.py<br />
-# extrapolating the build to integrate MASTERMIND rational engine<br />
-based on the working reference <a href="https://chatgpt.com/g/g-gNLDlpcAv-professor-codephreak">Professor Codephreak GPT4</a>
- and sucessful deployment of automind with automindx<br />
-# Autonomous General Learning Model is a hybridization of MASTERMIND aGLM with RAGE from codephreak<br /> to create easyAGI
+## The modern `aglm/` package
 
-while these files are useful for research into AGI this model is currently not integrated into a working UIUX
-# <a href="https://opensea.io/assets/matic/0xf0ba8dcdfba1b5aed0b46acddf7dde97075e97a2/1">MASTERMIND</a> (c) codephreak GPLv3 2024
-MASTERMIND agent creator and control agent<br />
-project details are available at <a href="https://rage.pythai.net">rage.pythai.net</a><br />
-
-<b>MASTERMIND.py</b>
-Purpose: This file serves as the core of the MASTERMIND system, orchestrating the interaction between various components and managing the overall workflow.
-Functionality:
-
-Initializes the system and sets up the environment.
-Coordinates between modules including prediction, reasoning, and logic to process data and execute tasks.
-Manages state and ensures the consistency of operations across the system.
-Use Cases:
-Serving as the entry point for the system to execute complex tasks.
-Orchestrating multi-module interactions for comprehensive data processing and decision-making.
-
-<b>prediction.py</b>
-Purpose: Dedicated to forecasting future states or outcomes based on historical data and predictive models.
-Functionality:
-
-Implements machine learning algorithms or statistical models to make predictions.
-Analyzes historical data to identify patterns and trends for forecasting.
-Use Cases:
-Predicting user behaviors, market trends, or system performances.
-Providing insights for decision-making and strategic planning.
-
-<b>nonmonotonic.py</b>
-Purpose: Implements non-monotonic reasoning to allow the system to adapt its beliefs and knowledge base in light of new information, especially when it contradicts previous assumptions.
-Functionality:
-
-Handles updates to the knowledge base when new, contradicting evidence is introduced.
-Supports reasoning in dynamic environments where the truth value of statements can change.
-Use Cases:
-Adapting to new information in rapidly changing environments.
-Revising decisions or plans based on updated information.
-
-<b>socratic.py</b>
-Purpose: Inspired by the Socratic method, this module likely facilitates a question-and-answer style of learning or problem-solving.
-Functionality:
-
-Generates questions to probe understanding or clarify information.
-Analyzes responses to guide users or systems towards deeper insights.
-Use Cases:
-Guiding educational interactions or tutorials.
-Enhancing problem-solving by encouraging critical thinking and exploration.
-
-<b>reasoning.py</b>
-Purpose: Provides the logic and infrastructure for various types of reasoning, including deductive, inductive, and abductive reasoning.
-Functionality:
-
-Implements algorithms for logical deduction, generalization, and hypothesis generation.
-Supports complex decision-making processes with a logical foundation.
-Use Cases:
-Drawing conclusions from a set of premises or known facts.
-Generating hypotheses or explanations for observed phenomena.
-
-<b>logic.py</b>
-Purpose: Focuses on implementing formal logic systems and operations, providing a foundation for reasoning and decision-making processes.
-Functionality:
-
-Offers tools for evaluating logical expressions and performing logical operations.
-Ensures the logical consistency and validity of arguments and decisions.
-Use Cases:
-Supporting the reasoning processes in AI systems.
-Validating arguments and ensuring consistency in logical frameworks.
-
-<b>epistemic.py</b>
-Purpose: Manages the knowledge and beliefs within the system, tracking what is known, believed, and how these states change over time.
-Functionality:
-
-Represents and updates the epistemic states of agents or the system.
-Handles the dynamics of knowledge and belief, including certainty and uncertainty.
-Use Cases:
-Modeling the knowledge base of intelligent agents.
-Supporting decision-making processes that depend on the state of knowledge.
-
-<b>autonomize.py</b>
-Purpose: Enhances the autonomy of agents or components, allowing for self-directed operation and decision-making for self-healing software.
-Functionality:
-
-Implements mechanisms for self-improvement and adaptation.
-Enables components to operate independently based on their objectives and the current state of the environment.
-Use Cases:
-Developing self-improving AI systems.
-Automating decision-making in dynamic and complex environments.
-
-<b>bdi.py</b>
-Purpose: Implements the Beliefs, Desires, Intentions (BDI) agent framework, modeling the cognitive structure of agents.
-Functionality:
-
-Defines and manages the beliefs, desires, and intentions of agents.
-Guides agent behavior and decision-making based on their BDI states.
-Use Cases:
-Creating intelligent agents for simulations and virtual environments.
-Designing systems where agent behavior is driven by complex internal states.
-
-<b>terminai.py</b>
-separates openai api interaction from assistant into cmd: command-mode
-adds API key to .env on first run and creates .env
-standalone test file python3 terminai.py
-
-<b>terminai_module.py</b>
-integrates terminai.py functionalities into MASTERMIND as a modular class to include SimpleCoder.py interaction with terminal as cmd:
-
-<b>SimpleCoder.py</b>
-Purpose: Utility module providing coding aids, templates, and functions to simplify development tasks.
-Functionality:
-
-Offers reusable code snippets, templates, and utility functions.
-Aims to enhance productivity and maintain consistency across the codebase.
-Use Cases:
-Accelerating development processes by providing common coding patterns.
-Ensuring code quality and consistency with standardized templates and functions.
-
-<b>config.json</b> offers the default allowed agency for MASTERMIND<br />
-This is experimental softare and needs to be jailed to protect potential system damage
-TODO: sandbox controller for integration with shell
-
-4096chunk is to protect this particular model from inputs above 4096 characters. irrelevant with model upgrade to mixtral or llama3
-
----
-
-# Modern aGLM Python package (Code release 2026-05-14)
-
-A standalone, agnostic, Apache-2.0 Python distribution of aGLM now lives in this repo, distilled from the autonomous-learning-loop pattern in [agenticplace/mindX](https://github.com/agenticplace) (`agents/core/agint.py` + `agents/core/mindXagent.py`).
-
-The historical research files at the repo root (`MASTERMIND.py`, `automind.py`, `bdi.py`, `reasoning.py`, `socratic.py`, etc.) are **preserved unchanged** — they document the easyAGI / Professor-Codephreak philosophical foundation that aGLM grew out of. The new `aglm/` directory is the modern, installable distribution.
-
-## Install
+A standalone, Apache-2.0 Python distribution of aGLM's autonomous-learning loop,
+distilled from the [agenticplace/mindX](https://github.com/agenticplace) pattern.
 
 ```bash
 pip install .                  # core only
-pip install ".[rage]"          # with github.com/GATERAGE/RAGE
-pip install ".[mastermind]"    # with github.com/GATERAGE/mastermind
+pip install ".[rage]"          # with GATERAGE/RAGE
+pip install ".[mastermind]"    # with GATERAGE/mastermind
 pip install ".[dev]"           # pytest, ruff
 ```
-
-## Quick use
 
 ```python
 import asyncio
 from aglm import AGLMCore, AutonomousLoop, Decision, PerceptionContext
 
-async def perceive(): return PerceptionContext(facts={"hour": 14})
+async def perceive():          return PerceptionContext(facts={"hour": 14})
 async def decide(ctx, beliefs): return Decision(action="log", args=ctx.facts)
-async def act(d): return {"success": True}
+async def act(decision):        return {"success": True}
 
 async def main():
     core = AGLMCore(perceive=perceive, decide=decide, act=act)
-    print(await core.cycle())                          # one cycle
-    loop = AutonomousLoop(core, interval_seconds=300.0)  # or a periodic runner
+    print(await core.cycle())                              # one cycle
+    loop = AutonomousLoop(core, interval_seconds=300.0)    # or a periodic runner
     await loop.start()
-    # …
     await loop.stop()
 
 asyncio.run(main())
 ```
 
-## Three primitives
-
 | Module | Class | Responsibility |
 |---|---|---|
-| `aglm/core.py` | `AGLMCore` | Perceive-Orient-Decide-Act cycle |
+| `aglm/core.py` | `AGLMCore` | Perceive · Orient · Decide · Act cycle |
 | `aglm/beliefs.py` | `BeliefSystem` | claim + confidence + source attribution |
 | `aglm/cycle.py` | `AutonomousLoop` | periodic runner with circuit breaker |
 
-## Companion repos
-
-- **[GATERAGE/RAGE](https://github.com/GATERAGE/RAGE)** — retrieval substrate (the memory side)
-- **[GATERAGE/mastermind](https://github.com/GATERAGE/mastermind)** — strategic orchestrator (the planning side)
-
-Together: **RAGE remembers, aGLM decides, MASTERMIND orchestrates.**
-
-## Tests
-
 ```bash
-pip install ".[dev]"
-pytest -v
+pip install ".[dev]" && pytest -v
 ```
 
-## Spec
+Canonical contract: [`docs/aglm_as_a_service.md`](docs/aglm_as_a_service.md).
 
-[`docs/aglm_as_a_service.md`](docs/aglm_as_a_service.md) — canonical contract for what aGLM offers as a primitive in a multi-agent system.
+---
 
-## License
+## Ecosystem
 
-Apache-2.0. (c) 2024-2026 GATERAGE / Professor Codephreak.
+> **RAGE remembers · aGLM decides · MASTERMIND orchestrates.**
+
+- **[GATERAGE/RAGE](https://github.com/GATERAGE/RAGE)** — retrieval substrate (memory)
+- **[GATERAGE/mastermind](https://github.com/GATERAGE/mastermind)** — strategic orchestrator (planning)
+- **[pythaiml/automindx](https://github.com/pythaiml/automindx)** — Professor Codephreak deployment environment
+
+---
+
+## Historical research modules
+
+The files at the repo root document the philosophical foundation aGLM grew out of
+and remain **preserved unchanged**. The cognitive faculties are used directly by
+the consoles above.
+
+| Module | Purpose |
+|---|---|
+| `MASTERMIND.py` | Core controller — loads, validates, and executes agents concurrently |
+| `bdi.py` | Beliefs · Desires · Intentions agent framework |
+| `socratic.py` / `reasoning.py` | Socratic question-and-answer reasoning over premises |
+| `logic.py` | Formal logic operations and truth tables |
+| `nonmonotonic.py` | Non-monotonic reasoning — beliefs adapt to contradicting evidence |
+| `epistemic.py` | Knowledge/belief tracking and revision over time |
+| `autonomize.py` | Self-healing autonomy with exponential backoff |
+| `prediction.py` | Forecasting via statistical / ML models |
+| `terminai.py` · `terminai_module.py` | OpenAI command-mode (`cmd:`) integration |
+| `SimpleCoder.py` | Reusable code snippets and templates |
+| `config.json` | Default allowed agency for MASTERMIND |
+| `chunk4096.py` | Guards inputs above the 4096-token context of the original model |
+
+> **Note.** The legacy Gradio entrypoints (`uiux*.py`, `main.py`) tried to load a
+> multi-GB model *before* rendering and are kept for reference only. Use the
+> consoles above instead — they are the working interfaces.
+
+---
+
+## Attribution & license
+
+- **MASTERMIND** — agent creator and control agent · © codephreak, **GPLv3**, 2024
+  ([NFT](https://opensea.io/assets/matic/0xf0ba8dcdfba1b5aed0b46acddf7dde97075e97a2/1)).
+- **Modern `aglm/` package** — **Apache-2.0**, © 2024–2026 GATERAGE / Professor Codephreak.
+- Project details: **[rage.pythai.net](https://rage.pythai.net)**.
+
+See [`LICENSE`](LICENSE) for the full text.
